@@ -1,13 +1,12 @@
-package live.mukeshtechlab.bookmyscreen.models;
+package live.mukeshtechlab.bookmyscreen.dtos.userDtos;
 
-import jakarta.persistence.Entity;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-public class User extends BaseModel {
+public class SignUpRequestDto {
     private String name;
     private String email;
     private String password;
