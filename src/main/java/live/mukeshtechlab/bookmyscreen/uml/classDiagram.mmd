@@ -1,0 +1,157 @@
+classDiagram
+    class Actor {
+        -Long id
+        -String name
+    }
+
+    class Booking {
+        -Long id
+        -String bookingReference
+        -User user
+        -int amount
+        -BookingStatus status
+        -List~ShowSeat~ showSeats
+        -List~Payment~ payments
+        -BookingStatus status
+    }
+    class BookingStatus {
+        <<enumeration>>
+        +CONFIRMED
+        +CANCELLED
+        +PENDING
+    }
+
+    class City {
+        -Long id
+        -String name
+        -List~Theatre~ theatres
+    }
+
+    class Feature {
+        <<enumeration>>
+        +TWO_D
+        +THREE_D
+        +IMAX
+        +DOLBY_ATMOS
+    }
+
+    class Movie {
+        -Long id
+        -String name
+        -double duration
+        -List~Actor~ actors
+    }
+
+    class Payment {
+        -Long id
+        -int amount
+        -String transactionId
+        -Date paymentDate
+        -PaymentMode mode
+        -PaymentStatus status
+    }
+
+    class PaymentMode {
+        <<enumeration>>
+        +CASH
+        +UPI
+        +DEBIT_CARD
+        +CREDIT_CARD
+        +NET_BANKING
+    }
+
+    class PaymentStatus {
+        <<enumeration>>
+        +SUCCESS
+        +FAILED
+        +CANCELLED
+        +PENDING
+        +REFUNDED
+    }
+
+    class Screen {
+        -Long id
+        -String name
+        -List~Seat~ seats
+        -List~Feature~ features
+        -List~Show~ shows
+    }
+
+    class Seat {
+        -Long id
+        -String seatNumber
+        -int rowVal
+        -int colVal
+        -SeatType seatType
+    }
+
+    class SeatType {
+        -Long id
+        -String type
+    }
+
+    class Show {
+        -Long id
+        -Date statTime
+        -Date endTime
+        -Movie movie
+        -Screen screen
+    }
+
+    class ShowSeat {
+        -Long id
+        -Show show
+        -Seat seat
+        -ShowSeatStatus status;
+    }
+
+    class ShowSeatStatus {
+        <<enumeration>>
+        +AVAILABLE
+        +BOOKED
+        +BLOCKED
+        +NOT_AVAILABLE
+    }
+
+    class ShowSeatType {
+        -Long id
+        -int price
+        -Show show
+        SeatType seatType
+    }
+
+    class Theatre {
+        -Long id
+        -String name
+        -City city
+        -List~Screen~ screens
+    }
+
+    class User {
+        -Long id
+        -String name
+        -String email
+        -String contact
+        -String password
+    }
+
+    %% Relationships %%
+    Seat --> SeatType
+    Screen o-- Feature
+
+    %% Aggregations %%
+    City o-- Theatre
+    Movie o-- Actor
+    Screen o-- Seat
+    Show o-- Movie
+    ShowSeat o-- Show
+    ShowSeat o-- Seat
+    ShowSeatType o-- Show
+    ShowSeatType o-- SeatType
+    Booking o-- User
+    Booking o-- ShowSeat
+
+    %% Compositions %%
+    Theatre *-- Screen
+    Booking *-- Payment
+
